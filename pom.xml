@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright 1999-2021 Alibaba Group Holding Ltd.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~      http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<inceptionYear>2018</inceptionYear>
+	<groupId>cn.com.yunweizhan</groupId>
+	<artifactId>nacos-examples</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>Nacos-examples ${project.version}</name>
+	<description>This is a example project for Nacos.</description>
+	<url>http://nacos.io</url>
+	<prerequisites>
+		<maven>3.8.4</maven>
+	</prerequisites>
+
+	<developers>
+		<developer>
+			<id>YunWZ</id>
+			<name>Weizhan Yun</name>
+			<url>https://www.yunweizhan.com.cn</url>
+			<email>verdgun@gmail.com</email>
+		</developer>
+	</developers>
+
+	<licenses>
+		<license>
+			<name>GNU GENERAL PUBLIC LICENSE, Version 2.0</name>
+			<url>https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<issueManagement>
+		<system>github</system>
+		<url>https://github.com/YunWZ/nacos-examples/issues</url>
+	</issueManagement>
+
+	<properties>
+		<revision>0.1</revision>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- Compiler settings properties -->
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+		<java.version>17</java.version>
+		<!-- Maven properties -->
+		<maven.test.skip>false</maven.test.skip>
+		<maven.javadoc.skip>true</maven.javadoc.skip>
+
+		<!-- dependency version -->
+		<spring-boot-dependencies.version>2.6.8</spring-boot-dependencies.version>
+		<spring-cloud-dependencies.version>2021.0.3</spring-cloud-dependencies.version>
+	</properties>
+	<!-- == -->
+	<!-- =========================================================Build plugins================================================ -->
+	<!-- == -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>io.spring.javaformat</groupId>
+				<artifactId>spring-javaformat-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<!-- Submodule management -->
+	<modules>
+		<module>docs</module>
+		<module>docs</module>
+	</modules>
+
+	<!-- Default dependencies in all subprojects -->
+	<dependencies>
+
+	</dependencies>
+
+	<!-- Manage the version numbers of dependencies,
+	sub-modules will not introduce these dependencies by default -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-dependencies</artifactId>
+				<version>${spring-boot-dependencies.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+</project>
+
