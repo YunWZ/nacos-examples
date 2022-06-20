@@ -1,0 +1,13 @@
+include::_attributes.adoc[]
+:toc!:
+:appendix-caption: 附录
+
+[appendix]
+//[[code-repo]]
+== 仓库地址
+
+=== 鉴权插件
+
+https://github.com/YunWZ/nacos-examples/tree/main/nacos-plugin
+
+
