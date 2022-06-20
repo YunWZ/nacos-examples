@@ -6,14 +6,25 @@
 		<artifactId>nacos-examples</artifactId>
 		<groupId>cn.com.yunweizhan</groupId>
 		<version>${revision}</version>
+		<relativePath>../../pom.xml</relativePath>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>docs</artifactId>
+	<artifactId>nacos-auth-plugin-server</artifactId>
 
 	<properties>
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
 	</properties>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-auth-plugin</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-api</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+	</dependencies>
 </project>

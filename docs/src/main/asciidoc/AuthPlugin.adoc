@@ -1,0 +1,217 @@
+= 鉴权插件开发
+//:toc:
+:sectnums:
+:icons: font
+
+== 服务端鉴权插件开发
+
+=== 创建一个Maven项目，在POM.xml中引入相关依赖：
+
+.POM.xml
+[source,xml]
+====
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-auth-plugin</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-api</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+	</dependencies>
+====
+
+=== 实现自定义插件：
+
+.自定义插件(实现AuthPluginService)
+```java
+public class MyAuthPlugin implements AuthPluginService {
+
+    private static final List<String> IDENTITY_NAMES = Collections.unmodifiableList(Arrays.asList("my-username", "my-passwd"));
+
+	private static final Map<String, String> USER_INFO = new HashMap<>(4);
+
+	private static final Map<String, String> USER_AUTHORITY = new HashMap<>(4);
+
+	static {
+		USER_INFO.put("ywz-read1", "read1123");
+		USER_INFO.put("ywz-read2", "read2123");
+
+		USER_AUTHORITY.put("ywz-read1", SignType.NAMING);
+		USER_AUTHORITY.put("ywz-read2", SignType.CONFIG);
+	}
+
+	@Override
+	public Collection<String> identityNames() {
+		return IDENTITY_NAMES;
+	}
+
+	@Override
+	public boolean enableAuth(ActionTypes action, String type) {
+		return ActionTypes.READ.equals(action) && (SignType.NAMING.equals(type) || SignType.CONFIG.equals(type));
+	}
+
+	@Override
+	public boolean validateIdentity(IdentityContext identityContext, Resource resource) throws AccessException {
+		String passwd = USER_INFO.get(getUserName(identityContext));
+		if (null != passwd && passwd.equals(getPasswd(identityContext))) {
+			return true;
+		}
+		return false;
+	}
+
+	private Object getPasswd(IdentityContext identityContext) {
+		return identityContext.getParameter("my-passwd");
+	}
+
+	private Object getUserName(IdentityContext identityContext) {
+		return identityContext.getParameter("my-username");
+	}
+
+	@Override
+	public Boolean validateAuthority(IdentityContext identityContext, Permission permission) throws AccessException {
+		if (ActionTypes.READ.toString().equals(permission.getAction())
+				&& permission.getResource().getType().equals(USER_AUTHORITY.get(getUserName(identityContext)))) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public String getAuthServiceName() {
+		return "ywzAuthPluginService";
+	}
+
+}
+```
+
+.AuthPluginService接口方法说明
+|===
+| 方法名称 | 作用
+
+|identityNames | 定义请求中需要哪些身份信息。 eq：用户名、密码、accessToken。
+|enableAuth |判断该插件是否针对指定的action和type进行鉴权。
+|validateIdentity |验证请求中的身份信息是合法还是非法。
+|validateAuthority |验证身份是否具有资源权限。
+|getAuthServiceName |插件名称，方便查找 AuthPluginService 实例。
+|===
+
+TIP: identityNames定义了身份信息key，请求到达服务端时会从header或者请求参数中(针对HTTP请求)获取相关信息，并封装为IdentityContext，以便于后续鉴权认证。
+
+=== 将自定义插件加入SPI中
+
+在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService**),文件内容则为自定义插件的全路径名称，文件内容如下：
+
+.com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService
+[source,text]
+====
+cn.com.yunweizhan.authplugin.server.MyAuthPlugin
+====
+
+=== 打包Maven项目，生成jar包
+
+=== 将插件jar包放到classpath中，并启动nacos服务端
+
+编辑nacos配置，在其中配置自定义插件并开启鉴权功能：
+
+.application.properties
+[source,properties]
+====
+### 所启用的Nacos的鉴权插件的名称，与`com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService`的`getAuthServiceName`返回值对应
+nacos.core.auth.system.type=ywzAuthPluginService
+
+### 开启鉴权功能
+nacos.core.auth.enabled=true
+====
+
+完成以上步骤，服务端的鉴权插件就完成了。
+
+== 客户端插件开发
+
+=== 创建一个Maven项目，在POM.xml中引入相关依赖：
+
+[source,xml]
+====
+	<dependencies>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-auth-plugin</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba.nacos</groupId>
+			<artifactId>nacos-common</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+	</dependencies>
+====
+
+=== 自定义客户端鉴权插件
+客户端鉴权插件主要作用是将身份信息放入到请求中。如下所示：
+
+```java
+public class MyClientAuthPlugin extends AbstractClientAuthService {
+
+    @Override
+    public Boolean login(Properties properties) {
+		return true;
+	}
+
+	@Override
+	public LoginIdentityContext getLoginIdentityContext(RequestResource resource) {
+		LoginIdentityContext loginIdentityContext = new LoginIdentityContext();
+		loginIdentityContext.setParameter("my-username", "ywz-read1");
+		loginIdentityContext.setParameter("my-passwd", "read1123");
+		return loginIdentityContext;
+	}
+
+	@Override
+	public void shutdown() throws NacosException {
+	}
+
+}
+```
+
+.AbstractClientAuthService抽象方法说明：
+|===
+|方法名称 |说明
+|login | 登陆接口
+|getLoginIdentityContext |获取登陆之后的身份信息
+|===
+
+login方法在客户端启动时被调用。 getLoginIdentityContext方法则在每次向Nacos服务端发送请求时将身份信息放到请求中。
+
+因此在login方法中需要实现类似*登陆*的功能。例如官方默认实现是向Nacos服务端发送登陆请求，服务端返回token，客户端鉴权插件将token保存下来。 getLoginIdentityContext方法则是将token放到IdentityContext中。
+
+=== 将自定义插件加入SPI中
+
+在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService**),文件内容则为自定义插件的全路径名称，文件内容如下：
+
+.com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService
+[source,text]
+====
+cn.com.yunweizhan.authplugin.client.MyClientAuthPlugin
+====
+
+=== 打包Maven项目，生成jar包
+
+=== 将插件jar包放到客户端的classpath中
+
+或者在项目POM文件中引入该模块。
+
+.POM.xml
+[source,xml]
+====
+	<dependencies>
+		<dependency>
+			<groupId>cn.com.yunweizhan</groupId>
+			<artifactId>nacos-auth-plugin-client</artifactId>
+		</dependency>
+	</dependencies>
+====
+
+== 参考文章
+[1]: https://nacos.io/zh-cn/docs/auth-plugin.html

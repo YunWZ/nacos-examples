@@ -19,7 +19,7 @@
 		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<inceptionYear>2018</inceptionYear>
+	<inceptionYear>2022</inceptionYear>
 	<groupId>cn.com.yunweizhan</groupId>
 	<artifactId>nacos-examples</artifactId>
 	<version>${revision}</version>
@@ -58,17 +58,22 @@
 		<revision>0.1</revision>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<!-- Compiler settings properties -->
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 		<java.version>17</java.version>
+
 		<!-- Maven properties -->
 		<maven.test.skip>false</maven.test.skip>
 		<maven.javadoc.skip>true</maven.javadoc.skip>
+		<maven-flatten-version>1.1.0</maven-flatten-version>
+		<maven-checkstyle-plugin.version>3.1.2</maven-checkstyle-plugin.version>
 
 		<!-- dependency version -->
 		<spring-boot-dependencies.version>2.6.8</spring-boot-dependencies.version>
 		<spring-cloud-dependencies.version>2021.0.3</spring-cloud-dependencies.version>
+		<nacos.version>2.1.0</nacos.version>
 	</properties>
 	<!-- == -->
 	<!-- =========================================================Build plugins================================================ -->
@@ -78,14 +83,12 @@
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>flatten-maven-plugin</artifactId>
-			</plugin>
-			<plugin>
-				<groupId>io.spring.javaformat</groupId>
-				<artifactId>spring-javaformat-maven-plugin</artifactId>
+				<version>${maven-flatten-version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
+				<version>${maven-checkstyle-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>
@@ -95,11 +98,18 @@
 	<modules>
 		<module>docs</module>
 		<module>docs</module>
+		<module>nacos-plugin</module>
+		<module>nacos-plugin/nacos-auth-plugin-server</module>
 	</modules>
 
 	<!-- Default dependencies in all subprojects -->
 	<dependencies>
-
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>5.8.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<!-- Manage the version numbers of dependencies,
