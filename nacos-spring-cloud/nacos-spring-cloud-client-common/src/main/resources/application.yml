@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: nacos-client
+  cloud:
+    nacos:
+      password: 19941215
+      username: nacos
+      config:
+        file-extension: yaml
+        extension-configs:
+          - data-id: config-example-1
+            refresh: true

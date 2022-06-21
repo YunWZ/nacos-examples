@@ -99,7 +99,7 @@
 		<module>docs</module>
 		<module>docs</module>
 		<module>nacos-plugin</module>
-		<module>nacos-plugin/nacos-auth-plugin-server</module>
+		<module>nacos-spring-cloud</module>
 	</modules>
 
 	<!-- Default dependencies in all subprojects -->
