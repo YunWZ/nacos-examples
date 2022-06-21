@@ -14,10 +14,21 @@ https://github.com/YunWZ/nacos-examples/tree/main/nacos-plugin
 
 == 依赖模块版本
 
-.Dependencies Version
+=== Nacos
+
+.Nacos Dependencies Version
 |===
 |groupId |artifactId |version
 |com.alibaba.nacos |nacos-auth-plugin | 2.1.0
 |com.alibaba.nacos |nacos-api | 2.1.0
 |com.alibaba.nacos |nacos-common |2.1.0
+|===
+
+=== Spring
+
+.Spring Dependencies Version
+|===
+|groupId |artifactId |version
+|org.springframework.boot |spring-boot-dependencies |2.7.0
+|org.springframework.cloud |spring-cloud-dependencies |2021.0.3
 |===
