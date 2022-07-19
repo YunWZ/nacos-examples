@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: nacos-client-auth-test
+nacos:
+  user-name: nacos
+  passwd: 123321
+  server-addr: '127.0.0.1:8848'
+  namespace: public
+server:
+  shutdown: graceful
+logging:
+  level:
+#    root: error
+    root: info

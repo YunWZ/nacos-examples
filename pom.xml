@@ -97,9 +97,9 @@
 	<!-- Submodule management -->
 	<modules>
 		<module>docs</module>
-		<module>docs</module>
 		<module>nacos-plugin</module>
 		<module>nacos-spring-cloud</module>
+		<module>nacos-client-auth-test</module>
 	</modules>
 
 	<!-- Default dependencies in all subprojects -->

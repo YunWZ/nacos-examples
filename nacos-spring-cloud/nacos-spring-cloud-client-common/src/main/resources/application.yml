@@ -3,10 +3,13 @@ spring:
     name: nacos-client
   cloud:
     nacos:
-      password: 19941215
+      password: 123321
       username: nacos
       config:
         file-extension: yaml
         extension-configs:
           - data-id: config-example-1
             refresh: true
+      discovery:
+        instance-enabled: true
+        weight: 1
