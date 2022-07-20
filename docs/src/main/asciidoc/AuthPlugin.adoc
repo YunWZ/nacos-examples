@@ -1,11 +1,11 @@
-= 鉴权插件开发
+== 鉴权插件开发
 //:toc:
 :sectnums:
 :icons: font
 
-== 服务端鉴权插件开发
+=== 服务端鉴权插件开发
 
-=== 创建一个Maven项目，在POM.xml中引入相关依赖：
+==== 创建一个Maven项目，在POM.xml中引入相关依赖：
 
 .POM.xml
 [source,xml]
@@ -24,7 +24,7 @@
 	</dependencies>
 ----
 
-=== 实现自定义插件：
+==== 实现自定义插件：
 
 .自定义插件(实现AuthPluginService)
 [source, java]
@@ -102,7 +102,7 @@ public class MyAuthPlugin implements AuthPluginService {
 
 TIP: identityNames定义了身份信息key，请求到达服务端时会从header或者请求参数中(针对HTTP请求)获取相关信息，并封装为IdentityContext，以便于后续鉴权认证。
 
-=== 将自定义插件加入SPI中
+==== 将自定义插件加入SPI中
 
 在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService**),文件内容则为自定义插件的全路径名称，文件内容如下：
 
@@ -110,9 +110,9 @@ TIP: identityNames定义了身份信息key，请求到达服务端时会从heade
 cn.com.yunweizhan.authplugin.server.MyAuthPlugin
 ====
 
-=== 打包Maven项目，生成jar包
+==== 打包Maven项目，生成jar包
 
-=== 将插件jar包放到classpath中，并启动nacos服务端
+==== 将插件jar包放到classpath中，并启动nacos服务端
 
 编辑nacos配置，在其中配置自定义插件并开启鉴权功能：
 
@@ -128,9 +128,9 @@ nacos.core.auth.enabled=true
 
 完成以上步骤，服务端的鉴权插件就完成了。
 
-== 客户端插件开发
+=== 客户端插件开发
 
-=== 创建一个Maven项目，在POM.xml中引入相关依赖：
+==== 创建一个Maven项目，在POM.xml中引入相关依赖：
 
 [source,xml]
 ----
@@ -148,7 +148,7 @@ nacos.core.auth.enabled=true
 	</dependencies>
 ----
 
-=== 自定义客户端鉴权插件
+==== 自定义客户端鉴权插件
 客户端鉴权插件主要作用是将身份信息放入到请求中。如下所示：
 
 [source, java]
@@ -186,7 +186,7 @@ login方法在客户端启动时被调用。 getLoginIdentityContext方法则在
 
 因此在login方法中需要实现类似*登陆*的功能。例如官方默认实现是向Nacos服务端发送登陆请求，服务端返回token，客户端鉴权插件将token保存下来。 getLoginIdentityContext方法则是将token放到IdentityContext中。
 
-=== 将自定义插件加入SPI中
+==== 将自定义插件加入SPI中
 
 在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService**),文件内容则为自定义插件的全路径名称，文件内容如下：
 
@@ -194,9 +194,9 @@ login方法在客户端启动时被调用。 getLoginIdentityContext方法则在
 cn.com.yunweizhan.authplugin.client.MyClientAuthPlugin
 ====
 
-=== 打包Maven项目，生成jar包
+==== 打包Maven项目，生成jar包
 
-=== 将插件jar包放到客户端的classpath中
+==== 将插件jar包放到客户端的classpath中
 
 或者在项目POM文件中引入该模块。
 
@@ -211,5 +211,5 @@ cn.com.yunweizhan.authplugin.client.MyClientAuthPlugin
 	</dependencies>
 ----
 
-== 参考文章
+=== 参考文章
 [1]: https://nacos.io/zh-cn/docs/auth-plugin.html
