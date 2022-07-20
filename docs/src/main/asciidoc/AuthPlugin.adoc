@@ -9,7 +9,7 @@
 
 .POM.xml
 [source,xml]
-====
+----
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
@@ -22,12 +22,13 @@
 			<version>${nacos.version}</version>
 		</dependency>
 	</dependencies>
-====
+----
 
 === 实现自定义插件：
 
 .自定义插件(实现AuthPluginService)
-```java
+[source, java]
+----
 public class MyAuthPlugin implements AuthPluginService {
 
     private static final List<String> IDENTITY_NAMES = Collections.unmodifiableList(Arrays.asList("my-username", "my-passwd"));
@@ -86,7 +87,7 @@ public class MyAuthPlugin implements AuthPluginService {
 	}
 
 }
-```
+----
 
 .AuthPluginService接口方法说明
 |===
@@ -105,8 +106,6 @@ TIP: identityNames定义了身份信息key，请求到达服务端时会从heade
 
 在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService**),文件内容则为自定义插件的全路径名称，文件内容如下：
 
-.com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService
-[source,text]
 ====
 cn.com.yunweizhan.authplugin.server.MyAuthPlugin
 ====
@@ -119,13 +118,13 @@ cn.com.yunweizhan.authplugin.server.MyAuthPlugin
 
 .application.properties
 [source,properties]
-====
+----
 ### 所启用的Nacos的鉴权插件的名称，与`com.alibaba.nacos.plugin.auth.spi.server.AuthPluginService`的`getAuthServiceName`返回值对应
 nacos.core.auth.system.type=ywzAuthPluginService
 
 ### 开启鉴权功能
 nacos.core.auth.enabled=true
-====
+----
 
 完成以上步骤，服务端的鉴权插件就完成了。
 
@@ -134,7 +133,7 @@ nacos.core.auth.enabled=true
 === 创建一个Maven项目，在POM.xml中引入相关依赖：
 
 [source,xml]
-====
+----
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
@@ -147,12 +146,13 @@ nacos.core.auth.enabled=true
 			<version>${nacos.version}</version>
 		</dependency>
 	</dependencies>
-====
+----
 
 === 自定义客户端鉴权插件
 客户端鉴权插件主要作用是将身份信息放入到请求中。如下所示：
 
-```java
+[source, java]
+----
 public class MyClientAuthPlugin extends AbstractClientAuthService {
 
     @Override
@@ -173,7 +173,7 @@ public class MyClientAuthPlugin extends AbstractClientAuthService {
 	}
 
 }
-```
+----
 
 .AbstractClientAuthService抽象方法说明：
 |===
@@ -190,8 +190,6 @@ login方法在客户端启动时被调用。 getLoginIdentityContext方法则在
 
 在\{project\}/src/main/resource/META-INF/services目录下创建文件(文件名称必须为**com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService**),文件内容则为自定义插件的全路径名称，文件内容如下：
 
-.com.alibaba.nacos.plugin.auth.spi.client.AbstractClientAuthService
-[source,text]
 ====
 cn.com.yunweizhan.authplugin.client.MyClientAuthPlugin
 ====
@@ -204,14 +202,14 @@ cn.com.yunweizhan.authplugin.client.MyClientAuthPlugin
 
 .POM.xml
 [source,xml]
-====
+----
 	<dependencies>
 		<dependency>
 			<groupId>cn.com.yunweizhan</groupId>
 			<artifactId>nacos-auth-plugin-client</artifactId>
 		</dependency>
 	</dependencies>
-====
+----
 
 == 参考文章
 [1]: https://nacos.io/zh-cn/docs/auth-plugin.html
