@@ -27,7 +27,6 @@
 
 	<name>Nacos-examples ${project.version}</name>
 	<description>This is a example project for Nacos.</description>
-	<url>http://nacos.io</url>
 	<prerequisites>
 		<maven>3.8.4</maven>
 	</prerequisites>
@@ -60,9 +59,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<!-- Compiler settings properties -->
-		<maven.compiler.source>17</maven.compiler.source>
-		<maven.compiler.target>17</maven.compiler.target>
-		<java.version>17</java.version>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<java.version>1.8</java.version>
 
 		<!-- Maven properties -->
 		<maven.test.skip>false</maven.test.skip>
@@ -98,7 +97,7 @@
 	<modules>
 		<module>docs</module>
 		<module>nacos-plugin</module>
-		<module>nacos-spring-cloud</module>
+		<!--		<module>nacos-spring-cloud</module>-->
 		<module>nacos-client-auth-test</module>
 	</modules>
 
