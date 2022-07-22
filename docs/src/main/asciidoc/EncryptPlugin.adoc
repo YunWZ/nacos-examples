@@ -131,7 +131,7 @@ image::./images/create_encrypt_config.png[]
 
 ==== 验证配置文件被加密
 
-在数据库表 `config_info` 中找到对应的配置记录，可以看到其 `encrypted_data_key` 字段保存了密钥。
+在数据库表 `config_info` 中找到对应的配置记录，可以看到其 `encrypted_data_key` 字段保存了密钥且 `content`字段保存的配置内容是密文。
 
 === 完整项目参考地址
 
