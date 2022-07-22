@@ -20,22 +20,9 @@ import com.alibaba.nacos.plugin.encryption.spi.EncryptionPluginService;
  * @date 2022/7/21 18:25
  */
 public class AESEncryptor implements EncryptionPluginService {
-	private static final String AES_PRIVATE_KEY;
+	private static final String AES_PRIVATE_KEY = "9GcHx+KDVi5NK4dV4OtmtQ==";
 
 	private static final String ALGORITHM = "AES";
-
-	static {
-		try {
-			KeyGenerator instance;
-			instance = KeyGenerator.getInstance(ALGORITHM);
-			instance.init(128);
-			AES_PRIVATE_KEY = new String(instance.generateKey().getEncoded(), StandardCharsets.UTF_8);
-
-		}
-		catch (NoSuchAlgorithmException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	/**
 	 * Encrypted interface.
@@ -46,21 +33,18 @@ public class AESEncryptor implements EncryptionPluginService {
 	 */
 	@Override
 	public String encrypt(String secretKey, String content) {
-		String encryptedContent = content;
 
 		try {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
-			cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), ALGORITHM));
-			encryptedContent = Base64.getEncoder()
-					.encodeToString(cipher.doFinal(content.getBytes(StandardCharsets.UTF_8)));
+			cipher.init(Cipher.ENCRYPT_MODE, new SecretKeySpec(base64Decode(secretKey), ALGORITHM));
+			return base64Encode(cipher.doFinal(content.getBytes(StandardCharsets.UTF_8)));
 		}
 		catch (NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException |
 			   InvalidKeyException ignored) {
 
 		}
 
-
-		return encryptedContent;
+		return content;
 	}
 
 	/**
@@ -72,18 +56,17 @@ public class AESEncryptor implements EncryptionPluginService {
 	 */
 	@Override
 	public String decrypt(String secretKey, String content) {
-		String sourceContent = content;
 		try {
 			Cipher cipher = Cipher.getInstance(ALGORITHM);
-			cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), ALGORITHM));
-			sourceContent = new String(cipher.doFinal(Base64.getDecoder().decode(content)), StandardCharsets.UTF_8);
+			cipher.init(Cipher.DECRYPT_MODE, new SecretKeySpec(base64Decode(secretKey), ALGORITHM));
+			return new String(cipher.doFinal(base64Decode(content)), StandardCharsets.UTF_8);
 		}
 		catch (NoSuchPaddingException | IllegalBlockSizeException | NoSuchAlgorithmException | BadPaddingException |
 			   InvalidKeyException ignored) {
 
 		}
 
-		return sourceContent;
+		return content;
 	}
 
 	/**
@@ -93,7 +76,25 @@ public class AESEncryptor implements EncryptionPluginService {
 	 */
 	@Override
 	public String generateSecretKey() {
+		try {
+			KeyGenerator instance;
+			instance = KeyGenerator.getInstance(ALGORITHM);
+			instance.init(128);
+			return base64Encode(instance.generateKey().getEncoded());
+		}
+		catch (Exception e) {
+
+		}
+
 		return AES_PRIVATE_KEY;
+	}
+
+	private String base64Encode(byte[] bytes) {
+		return new String(Base64.getEncoder().encode(bytes), StandardCharsets.UTF_8);
+	}
+
+	private byte[] base64Decode(String string) {
+		return Base64.getDecoder().decode(string.getBytes(StandardCharsets.UTF_8));
 	}
 
 	/**

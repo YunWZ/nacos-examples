@@ -1,5 +1,8 @@
 package cn.com.yunweizhan.plugin.encrypt.aes;
 
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,13 +16,20 @@ class AESEncryptorTests {
 
 	@Test
 	void encrypt() {
-		String encrypt = INSTANCE.encrypt(INSTANCE.generateSecretKey(), "encrypt");
-		assertEquals("encrypt", INSTANCE.decrypt(INSTANCE.generateSecretKey(), encrypt));
+		String secretKey = INSTANCE.generateSecretKey();
+		String encrypt = INSTANCE.encrypt(secretKey, "encrypt");
+		System.out.println(encrypt);
+		assertNotEquals("encrypt", encrypt);
+		assertEquals("encrypt", INSTANCE.decrypt(secretKey, encrypt));
+
 	}
 
 	@Test
-	void emptyKey() {
-//		String encrypt = INSTANCE.encrypt(INSTANCE.generateSecretKey(), "encrypt");
-		assertEquals("encrypt", INSTANCE.decrypt(INSTANCE.generateSecretKey(), "encrypt"));
+	void generateKey() {
+		INSTANCE.generateSecretKey();
+	}
+
+	private String base64Encode(String source) {
+		return Base64.getEncoder().encodeToString(source.getBytes(StandardCharsets.UTF_8));
 	}
 }
