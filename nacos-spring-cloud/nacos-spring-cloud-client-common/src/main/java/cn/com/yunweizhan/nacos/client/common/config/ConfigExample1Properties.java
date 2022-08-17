@@ -6,7 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author Weizhan▪Yun
  * @date 2022/6/21 09:19
  */
-@ConfigurationProperties(prefix = "example1")
+@ConfigurationProperties
 public class ConfigExample1Properties {
 
 	private User user;

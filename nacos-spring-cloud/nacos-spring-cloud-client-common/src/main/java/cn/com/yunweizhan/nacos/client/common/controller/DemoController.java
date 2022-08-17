@@ -1,6 +1,8 @@
 package cn.com.yunweizhan.nacos.client.common.controller;
 
-import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 import cn.com.yunweizhan.nacos.client.common.config.ConfigExample1Properties;
 
@@ -21,7 +23,27 @@ public class DemoController {
 	private ConfigExample1Properties configExample1Properties;
 
 	@GetMapping("/user")
-	public ConfigExample1Properties.User userInfo(){
+	public ConfigExample1Properties.User userInfo() {
 		return configExample1Properties.getUser();
+	}
+
+	public static void main(String[] args) {
+		Set<Integer> nums = new HashSet<>();
+		for (int i = 0; i < 20; i++) {
+			nums.add(i+1);
+		}
+		int count = 3;
+
+		Iterator<Integer> iterator = nums.iterator();
+		while (count > 0 && iterator.hasNext()) {
+			Integer num = iterator.next();
+			if ((num & 1) == 0) {
+				iterator.remove();
+				count--;
+			}
+		}
+
+		System.out.println("retain size: " + nums.size() + "ele: " + nums);
+
 	}
 }

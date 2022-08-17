@@ -3,13 +3,12 @@ spring:
     name: nacos-client
   cloud:
     nacos:
-      password: 123321
+      password: nacos
       username: nacos
-      config:
-        file-extension: yaml
-        extension-configs:
-          - data-id: config-example-1
-            refresh: true
       discovery:
         instance-enabled: true
         weight: 1
+      server-addr: 127.0.0.1:8848
+  config:
+    import:
+      - optional:nacos:nacos-client.yaml

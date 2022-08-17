@@ -1,6 +1,7 @@
 package cn.com.yunweizhan.nacos.client.common.config;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,4 +12,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @EnableConfigurationProperties(ConfigExample1Properties.class)
 public class NacosClientAutoConfiguration {
+
+	public static final ScheduledThreadPoolExecutor EXECUTOR = new ScheduledThreadPoolExecutor(1,
+			r -> new Thread(r, "globel-thread"));
+
 }

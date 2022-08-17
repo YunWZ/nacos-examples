@@ -6,14 +6,16 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>${spring-boot.version}</version>
+		<version>2.7.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
 	<packaging>pom</packaging>
 	<artifactId>nacos-spring-cloud</artifactId>
+	<groupId>cn.com.yunweizhan</groupId>
 
 	<properties>
+		<revision>0.1</revision>
 		<spring-boot.version>2.7.1</spring-boot.version>
 		<spring-cloud.version>2021.0.3</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.0.1.0</spring-cloud-alibaba.version>
