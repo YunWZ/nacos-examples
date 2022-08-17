@@ -137,5 +137,36 @@ image::./images/create_encrypt_config.png[]
 
 https://github.com/YunWZ/nacos-examples/tree/main/nacos-plugin/nacos-encrypt-plugin-aes[nacos-encrypt-plugin-aes]
 
+=== 插件测试
+
+测试插件功能有两种方式:
+
+. 通过MAVEN依赖的方式在项目中引入插件模块;
+. 将插件的jar包加入应用的classpath中;
+
+方式一适合客户端项目；
+方式二适合Nacos服务端；
+
+==== classpath配置
+
+开发服务端插件时，不需要重新编译Nacos源码，只需要将我们开发的插件打包，并将其jar包放到plugins目录下，并通过 `bin/startup.sh` (Windowns下为 `bin/startup.cmd` )启动Nacos服务端。
+
+IMPORTANT: 2.1.1及之前的版本中启动脚本有bug，可参考 link:#issuse8959[issuse#8959]修改启动脚本。
+
+==== 日志
+
+可通过查看{nacos.home}/logs/nacos.log查看插件是否成功加载。
+如插件被加载，你可以看到如下日志信息:
+
+[source, text]
+----
+2022-08-17 18:38:39,815 INFO [EncryptionPluginManager] Load EncryptionPluginService(class cn.com.yunweizhan.plugin.encrypt.aes.AESEncryptor) algorithmName(aes) successfully.
+----
+
+NOTE: 只有插件被使用时才会触发SPI加载，因此服务端无访问时不会加载鉴权插件；无配置需要加密时不会加载加解密插件。
+
 === 参考文章
-https://nacos.io/zh-cn/docs/config-encryption.html[Nacos-配置加密插件]
+[1]: https://nacos.io/zh-cn/docs/config-encryption.html
+
+[[issuse8959]]
+[2]: https://github.com/alibaba/nacos/pull/8959
