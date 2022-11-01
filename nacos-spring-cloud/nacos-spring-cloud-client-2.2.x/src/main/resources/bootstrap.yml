@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: nacos-client2
+  cloud:
+    nacos:
+      username: nacos
+      password: nacos
+      server-addr: http://localhost:8848
+      config:
+        file-extension: yml
+        extension-configs: nacos-client2-dev.yml
+server:
+  port: 8888
+#logging:
+#  level:
+#    root: debug
