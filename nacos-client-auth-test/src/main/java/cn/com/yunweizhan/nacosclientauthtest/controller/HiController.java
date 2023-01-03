@@ -1,8 +1,7 @@
-package cn.com.yunweizhan.nacosspringboot3.controller;
+package cn.com.yunweizhan.nacosclientauthtest.controller;
 
 import com.alibaba.nacos.api.config.ConfigService;
 import com.alibaba.nacos.api.exception.NacosException;
-
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

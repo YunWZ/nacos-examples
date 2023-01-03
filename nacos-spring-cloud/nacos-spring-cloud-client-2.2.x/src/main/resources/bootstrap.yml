@@ -6,7 +6,7 @@ spring:
   cloud:
     nacos:
       username: nacos
-      password: nacos
+      password: 123321
       server-addr: http://localhost:8848
       config:
         file-extension: yml

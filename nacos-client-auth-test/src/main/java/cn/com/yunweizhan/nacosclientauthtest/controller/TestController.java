@@ -10,6 +10,7 @@ import com.alibaba.nacos.api.exception.NacosException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,7 @@ public class TestController {
 	private static final int THREAD_NUMS = 1;
 	private ExecutorService executor = Executors.newFixedThreadPool(THREAD_NUMS);
 
-	@Resource
+	@Autowired
 	private ConfigService configService;
 
 	@GetMapping("/start")

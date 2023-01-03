@@ -15,22 +15,23 @@
 	<description>nacos-spring-boot-3</description>
 	<properties>
 		<java.version>17</java.version>
+		<nacos.version>2.4.0</nacos.version>
 	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
 			<artifactId>nacos-common</artifactId>
-			<version>3.0-SNAPSHOT</version>
+			<version>${nacos.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
 			<artifactId>nacos-client</artifactId>
-			<version>3.0-SNAPSHOT</version>
+			<version>${nacos.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba.nacos</groupId>
 			<artifactId>nacos-api</artifactId>
-			<version>3.0-SNAPSHOT</version>
+			<version>${nacos.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

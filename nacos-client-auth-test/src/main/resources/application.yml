@@ -2,10 +2,10 @@ spring:
   application:
     name: nacos-client-auth-test
 nacos:
-  user-name: nacos
+  user-name: ywz
   passwd: 123321
   server-addr: '127.0.0.1:8848'
-  namespace: public
+  namespace: 45b0af1d-1ad1-463d-80df-769c17e85a57
 server:
   shutdown: graceful
 logging:

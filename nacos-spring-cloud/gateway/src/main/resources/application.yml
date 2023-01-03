@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: gateway
+  cloud:
+    nacos:
+      username: nacos
+      password: 123321
+server:
+  port: 8082
